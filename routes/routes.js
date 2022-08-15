@@ -45,78 +45,35 @@ router.delete('/trackedAddresses/:address', async (req, res) => {
 router.post('/syncTrackedAddresses/:address', async (req, res) => {
     try {
         const address = req.params.address;
-         axios
-        .get('https://blockchain.info/rawaddr/' + address)
-        .then(getResponse => {
-            const data = new TrackedAddressSchema({
-                final_balance: getResponse.data.final_balance,
-                n_tx: getResponse.data.n_tx,
+        const getResponse = await axios.get('https://blockchain.info/rawaddr/' + address);
+        // Update the address with new balance and txs.
+        const data = await TrackedAddressSchema.findByIdAndUpdate(address, 
+            {
+                final_balance: getResponse.data.final_balance, 
                 txs: getResponse.data.txs
             });
-            console.log(address);
-            console.log(typeof(getResponse.data.final_balance));
-            TrackedAddressSchema.findByIdAndUpdate(address, {
-                final_balance: getResponse.data.final_balance,
-                n_tx: getResponse.data.n_tx,
-                txs: getResponse.data.txs
-            });
-            TrackedAddressSchema.findByIdAndUpdate(address, {
-                final_balance: 1000000
-            });
-            res.status(200).json(data);
-        })
+        res.status(200).json(data);
     }
     catch (error) {
         res.status(400).json({ message: error.message })
     }
 })
 
-//Get all Method
-router.get('/getAll', async (req, res) => {
+//Sync a tracked BTC addres.
+router.post('/syncTrackedAddresses', async (req, res) => {
     try {
-        const data = await Model.find();
-        res.json(data)
-    }
-    catch (error) {
-        res.status(500).json({ message: error.message })
-    }
-})
-
-//Get by ID Method
-router.get('/getOne/:id', async (req, res) => {
-    try {
-        const data = await Model.findById(req.params.id);
-        res.json(data)
-    }
-    catch (error) {
-        res.status(500).json({ message: error.message })
-    }
-})
-
-//Update by ID Method
-router.patch('/update/:id', async (req, res) => {
-    try {
-        const id = req.params.id;
-        const updatedData = req.body;
-        const options = { new: true };
-
-        const result = await Model.findByIdAndUpdate(
-            id, updatedData, options
-        )
-
-        res.send(result)
-    }
-    catch (error) {
-        res.status(500).json({ message: error.message })
-    }
-})
-
-//Delete by ID Method
-router.delete('/delete/:id', async (req, res) => {
-    try {
-        const id = req.params.id;
-        const data = await Model.findByIdAndDelete(id)
-        res.send(`Document with ${data.name} has been deleted..`)
+        const data = await TrackedAddressSchema.find(); 
+        for(let i = 0; i < data.length; i++){
+            console.log(data[i]._id);
+            var getResponse = await axios.get('https://blockchain.info/rawaddr/' +  data[i]._id);
+            await TrackedAddressSchema.findByIdAndUpdate(data[i]._id, 
+                {
+                    final_balance: getResponse.data.final_balance, 
+                    txs: getResponse.data.txs
+                });
+        }
+        
+        res.status(200).json("All address have been updated");
     }
     catch (error) {
         res.status(400).json({ message: error.message })
