@@ -1,0 +1,117 @@
+{
+	"info": {
+		"_postman_id": "251be4c9-f438-4a81-87f7-27bb4a6721cd",
+		"name": "Cointracker",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1484506"
+	},
+	"item": [
+		{
+			"name": "Create a tracked address",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"address\": \"1AJbsFZ64EpEfS5UAjAfcUG8pH8Jn3rn1F\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/trackedAddresses",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"trackedAddresses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a tracked address",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/trackedAddresses/1AJbsFZ64EpEfS5UAjAfcUG8pH8Jn3rn1F",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"trackedAddresses",
+						"1AJbsFZ64EpEfS5UAjAfcUG8pH8Jn3rn1F"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sync a tracked address",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/syncTrackedAddresses/1AJbsFZ64EpEfS5UAjAfcUG8pH8Jn3rn1F",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"syncTrackedAddresses",
+						"1AJbsFZ64EpEfS5UAjAfcUG8pH8Jn3rn1F"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sync all tracked address",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/synctrackedAddresses",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"synctrackedAddresses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a tracked address",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/trackedAddresses/1AJbsFZ64EpEfS5UAjAfcUG8pH8Jn3rn1F",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"trackedAddresses",
+						"1AJbsFZ64EpEfS5UAjAfcUG8pH8Jn3rn1F"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
